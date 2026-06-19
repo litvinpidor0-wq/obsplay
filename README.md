@@ -5,16 +5,41 @@
 ## Requirements
 
 - Python 3.9+
-- PyQt6 ≥ 6.6 (bundles Qt6 + FFmpeg backend on Windows)
+- PyQt6 ≥ 6.6
+- PyAudio ≥ 0.2.11 (for software audio playback with real-time EQ)
+- numpy ≥ 1.24 (for DSP processing)
+- audioread ≥ 3.0 (for audio file decoding)
 - requests ≥ 2.31
+
+FFmpeg is required for audio decoding — `imageio-ffmpeg` bundles it automatically on all platforms.
 
 ## Installation
 
 ```bash
 pip install -r requirements.txt
 python -m obsyde
+```
 
-## Build Command
+> **Note:** PyAudio may require additional system libraries:
+> - **Windows:** `pip install pyaudio` should work out of the box.
+> - **macOS:** `brew install portaudio` then `pip install pyaudio`.
+> - **Linux:** `sudo apt install portaudio19-dev python3-pyaudio` then `pip install pyaudio`.
+
+## Build
 
 ```bash
-python -m PyInstaller --onefile --windowed --name Obsyde --collect-binaries PyQt6 --collect-data PyQt6 --exclude-module PyQt6.QtWebEngineCore --exclude-module PyQt6.QtWebEngineWidgets --exclude-module PyQt6.QtQml --exclude-module PyQt6.QtQuick --exclude-module PyQt6.QtQuick3D --exclude-module PyQt6.Qt3DCore --exclude-module PyQt6.Qt3DRender --exclude-module PyQt6.QtCharts --exclude-module PyQt6.QtDataVisualization --exclude-module PyQt6.QtPdf --exclude-module PyQt6.QtPdfWidgets --exclude-module PyQt6.QtTextToSpeech --exclude-module PyQt6.QtBluetooth --exclude-module PyQt6.QtSerialPort --exclude-module PyQt6.QtPositioning --exclude-module PyQt6.QtLocation --exclude-module PyQt6.QtSensors --exclude-module PyQt6.QtSql --exclude-module PyQt6.QtTest --exclude-module PyQt6.QtSpatialAudio --exclude-module tkinter --exclude-module unittest run.py
+pip install pyinstaller
+pyinstaller Obsyde.spec
+```
+
+The standalone executable will be in `dist/`.
+
+## Features
+
+- SoundCloud streaming (search, playlists, likes)
+- 10-band graphic equalizer with real-time DSP
+- Custom frameless UI with particle effects (rain, snow, stars, bubbles)
+- System tray controls
+- Keyboard shortcuts
+- Import / export playlists
+- Settings persistence (EQ, volume, background effects, window opacity)
